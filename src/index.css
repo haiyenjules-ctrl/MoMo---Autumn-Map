@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+@layer base {
+  *, ::before, ::after {
+    font-family: 'Quicksand', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    font-family: 'Quicksand', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Quicksand', 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom Leaflet Map Pin & Popup Styling */
+.custom-map-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+.custom-map-pin .pin-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+}
+
+.custom-map-pin .pin-wrapper:hover,
+.custom-map-pin .pin-wrapper.active {
+  transform: translate(-50%, -108%) scale(1.12);
+  z-index: 1000 !important;
+}
+
+.custom-map-pin .pin-bubble {
+  position: relative;
+  padding: 3px;
+  background: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  border: 2px solid #ea580c;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-map-pin .pin-wrapper.active .pin-bubble {
+  border-color: #d82d8b; /* MoMo signature pink */
+  box-shadow: 0 6px 20px rgba(216, 45, 139, 0.35), 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.custom-map-pin .pin-thumb {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  object-fit: cover;
+  display: block;
+}
+
+.custom-map-pin .pin-icon-thumb {
+  width: 38px;
+  height: 38px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: #fff8f0;
+  line-height: 1;
+  user-select: none;
+}
+
+.custom-map-pin .pin-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  font-size: 13px;
+  line-height: 1;
+  background: #ffffff;
+  border-radius: 9999px;
+  padding: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-map-pin .pin-label {
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: rgba(28, 25, 23, 0.88);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.custom-map-pin .pin-pointer {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #ffffff;
+  margin-top: -1px;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+.custom-map-pin .pin-pulse {
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  background: rgba(225, 29, 72, 0.4);
+  border-radius: 50%;
+  transform: translate(0, 50%) scale(1);
+  animation: pinPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes pinPulse {
+  0% {
+    transform: translate(0, 50%) scale(0.6);
+    opacity: 0.9;
+  }
+  70% {
+    transform: translate(0, 50%) scale(2.6);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Hide default leaflet attribution flag slightly or style nicely */
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  margin: 4px !important;
+}
+
+/* Hide leaflet default zoom control if we use custom styled controls */
+.leaflet-container {
+  font-family: inherit;
+  background: #1c1917;
+}
+
+/* Dark mode map styling for Esri Canvas Dark Base */
+.dark-map-container .leaflet-container {
+  background: #18181b !important;
+}
+
+.dark-map-tiles .leaflet-control-attribution {
+  background: rgba(24, 24, 27, 0.8) !important;
+  color: #a1a1aa !important;
+}
+
+.dark-map-tiles .leaflet-control-attribution a {
+  color: #fb923c !important;
+}
+
+/* Glowing Foliage Hotspots on Dark Map */
+.glow-pin-ginkgo .pin-bubble {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.75), 0 0 40px rgba(245, 158, 11, 0.35) !important;
+}
+
+.glow-pin-maple .pin-bubble {
+  border-color: #e11d48 !important;
+  box-shadow: 0 0 20px rgba(225, 29, 72, 0.75), 0 0 40px rgba(225, 29, 72, 0.35) !important;
+}
+
+.glow-pin-pink .pin-bubble {
+  border-color: #ec4899 !important;
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.75), 0 0 40px rgba(236, 72, 153, 0.35) !important;
+}
+
+.glow-pin-orange .pin-bubble {
+  border-color: #f97316 !important;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.75), 0 0 40px rgba(249, 115, 22, 0.35) !important;
+}
+
+.glow-pin-mixed .pin-bubble {
+  border-color: #f59e0b !important;
+  box-shadow: 0 0 20px rgba(225, 29, 72, 0.75), 0 0 35px rgba(245, 158, 11, 0.5) !important;
+}
+
+/* Illustrated Stamp Pin Styling */
+.illustrated-pin-bubble {
+  background: linear-gradient(135deg, #ffffff, #fff7ed) !important;
+  border-radius: 18px !important;
+  padding: 4px 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  border-width: 2.5px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* Floating leaf animation */
+@keyframes leafFall {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: translateY(25vh) rotate(45deg) translateX(25px);
+  }
+  50% {
+    transform: translateY(50vh) rotate(120deg) translateX(-25px);
+  }
+  75% {
+    transform: translateY(75vh) rotate(210deg) translateX(25px);
+  }
+  100% {
+    transform: translateY(115vh) rotate(310deg) translateX(0);
+  }
+}
+
+.animate-leaf-fall {
+  animation-name: leafFall;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Smooth hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

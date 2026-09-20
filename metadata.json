@@ -1,0 +1,6 @@
+{
+  "name": "MoMo Autumn Travel Map",
+  "description": "Bản đồ tương tác khám phá các địa điểm ngắm mùa thu đẹp nhất tại Nhật Bản, Hàn Quốc và Trung Quốc trên MoMo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
