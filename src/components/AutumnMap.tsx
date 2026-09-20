@@ -71,13 +71,12 @@ export const AutumnMap: React.FC<AutumnMapProps> = ({
       tileLayerRef.current = baseTile;
       labelLayerRef.current = labelTile;
     } else {
-      // CARTO Voyager: Clean, warm daylight cartography with soft pastels, perfect for autumn travel
+      // Esri World Street Map: Clean, high-detail daylight cartography, 100% free with NO watermark and NO API key
       const baseTile = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
         {
-          attribution: '&copy; <a href="https://carto.com/">CARTO</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          subdomains: 'abcd',
-          maxZoom: 19,
+          attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom',
+          maxZoom: 18,
           minZoom: 3,
         }
       ).addTo(map);
@@ -293,7 +292,7 @@ export const AutumnMap: React.FC<AutumnMapProps> = ({
           title="Xem chứng nhận bản đồ mở và cam kết chủ quyền"
         >
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-          <span className="text-[11px] font-semibold truncate">Bản đồ UNCLOS • Không cần API</span>
+          <span className="text-[11px] font-semibold truncate">Bản đồ chuẩn UNCLOS</span>
         </button>
 
         {mapTheme === 'dark' && (

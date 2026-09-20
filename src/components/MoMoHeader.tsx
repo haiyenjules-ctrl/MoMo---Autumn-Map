@@ -54,11 +54,11 @@ export const MoMoHeader: React.FC<MoMoHeaderProps> = ({
         <div className="flex items-center gap-2 text-xs">
           <button
             onClick={onOpenSovereignty}
-            className="hidden sm:flex items-center gap-1 bg-emerald-700/80 hover:bg-emerald-700 px-2 py-0.5 rounded-full text-[10.5px] font-medium transition-colors"
-            title="Bản đồ chuẩn quốc tế UNCLOS - 100% Không cần API"
+            className="hidden sm:flex items-center gap-1 bg-emerald-700/80 hover:bg-emerald-700 px-2 py-0.5 rounded-full text-[10.5px] font-medium transition-colors cursor-pointer"
+            title="Bản đồ chuẩn quốc tế UNCLOS"
           >
             <ShieldCheck className="w-3 h-3 text-emerald-200" />
-            <span>Chuẩn UNCLOS • Không cần API</span>
+            <span>Chuẩn quốc tế UNCLOS</span>
           </button>
 
           <span className="inline-flex items-center gap-1 bg-amber-400/25 border border-amber-300/40 text-amber-100 px-2 py-0.5 rounded-full text-[11px] font-medium">

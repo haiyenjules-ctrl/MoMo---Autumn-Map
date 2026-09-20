@@ -42,7 +42,7 @@ export const SovereigntyInfoModal: React.FC<SovereigntyInfoModalProps> = ({ isOp
             <div>
               <h4 className="font-semibold text-emerald-950 text-sm">Loại bỏ 100% đường lưỡi bò phi pháp</h4>
               <p className="text-emerald-800 text-xs mt-1 leading-relaxed">
-                Ứng dụng sử dụng nguồn dữ liệu bản đồ quốc tế <strong>OpenStreetMap (OSM)</strong> &amp; <strong>CartoDB</strong> tuân theo Công ước Quốc tế UNCLOS 1982. Tuyệt đối <strong>không vẽ, không hỗ trợ và không hiển thị</strong> bất kỳ đường 9 đoạn/đường lưỡi bò phi pháp nào trên Biển Đông.
+                Ứng dụng sử dụng nguồn dữ liệu bản đồ quốc tế <strong>Esri Geographic &amp; OpenStreetMap (OSM)</strong> tuân theo Công ước Quốc tế UNCLOS 1982. Tuyệt đối <strong>không vẽ, không hỗ trợ và không hiển thị</strong> bất kỳ đường 9 đoạn / đường lưỡi bò phi pháp nào trên Biển Đông.
               </p>
             </div>
           </div>
