@@ -96,12 +96,12 @@ export const MoMoHeader: React.FC<MoMoHeaderProps> = ({
           <button
             id="header-sound-btn"
             onClick={onToggleSound}
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-95 ${
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-95 ${
               soundPlaying
                 ? 'bg-amber-100 text-amber-800 border border-amber-300 shadow-xs animate-pulse'
                 : 'bg-stone-100 hover:bg-stone-200 text-stone-600'
             }`}
-            title={soundPlaying ? 'Tắt tiếng gió mùa thu' : 'Bật tiếng gió thu nhẹ nhàng, lá xào xạc & chuông gió (Ambient)'}
+            title={soundPlaying ? 'Đang bật âm thanh mùa thu (Chạm để tắt)' : 'Bật tiếng gió thu nhẹ nhàng & chuông gió (Ambient)'}
             aria-label="Tiếng gió thu nhẹ nhàng"
           >
             {soundPlaying ? <Volume2 className="w-4 h-4 text-amber-700" /> : <VolumeX className="w-4 h-4" />}
@@ -111,7 +111,7 @@ export const MoMoHeader: React.FC<MoMoHeaderProps> = ({
           <button
             id="header-leaves-btn"
             onClick={onToggleLeaves}
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-95 ${
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-95 ${
               leavesEnabled
                 ? 'bg-rose-100 text-rose-700 border border-rose-300 shadow-xs'
                 : 'bg-stone-100 hover:bg-stone-200 text-stone-600'
@@ -126,18 +126,18 @@ export const MoMoHeader: React.FC<MoMoHeaderProps> = ({
           <button
             id="header-theme-toggle-btn"
             onClick={onToggleMapTheme}
-            className="w-8 h-8 rounded-full bg-stone-100 hover:bg-amber-100 flex items-center justify-center text-stone-700 transition-colors active:scale-95"
-            title={mapTheme === 'dark' ? 'Đổi sang bản đồ ban ngày sáng' : 'Đổi sang bản đồ trầm (Dạ Thu rực sáng)'}
+            className="w-8 h-8 rounded-full bg-stone-100 hover:bg-amber-100 flex items-center justify-center text-stone-700 transition-colors cursor-pointer active:scale-95"
+            title={mapTheme === 'light' ? 'Đổi sang bản đồ đêm (Dạ Thu rực sáng)' : 'Đổi sang bản đồ ban ngày (Nắng Thu sáng)'}
             aria-label="Chế độ bản đồ"
           >
-            {mapTheme === 'dark' ? <Moon className="w-4 h-4 text-amber-600" /> : <Sun className="w-4 h-4 text-amber-600" />}
+            {mapTheme === 'light' ? <Sun className="w-4 h-4 text-amber-600" /> : <Moon className="w-4 h-4 text-amber-600" />}
           </button>
 
           {/* List vs Map Switcher */}
           <button
             id="header-view-toggle-btn"
             onClick={() => onToggleViewMode(viewMode === 'map' ? 'list' : 'map')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-stone-100 hover:bg-stone-200 text-stone-800 transition-colors shadow-xs active:scale-95"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-stone-100 hover:bg-stone-200 text-stone-800 transition-colors shadow-xs cursor-pointer active:scale-95"
             title={viewMode === 'map' ? 'Xem dạng danh sách' : 'Xem trên bản đồ'}
           >
             {viewMode === 'map' ? (

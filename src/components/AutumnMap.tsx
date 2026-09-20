@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { Destination, CountryCode } from '../types';
 import { FOLIAGE_STATUSES, COUNTRIES } from '../data/destinations';
 import { getDestinationMeta } from '../utils/autumnMeta';
+import { autumnAudio } from '../utils/autumnAudio';
 import { Plus, Minus, Compass, Moon, Sun, Sparkles, Camera, ShieldCheck } from 'lucide-react';
 
 interface AutumnMapProps {
@@ -70,12 +71,13 @@ export const AutumnMap: React.FC<AutumnMapProps> = ({
       tileLayerRef.current = baseTile;
       labelLayerRef.current = labelTile;
     } else {
-      // Esri World Street Map: Clean, high-detail daylight cartography
+      // CARTO Voyager: Clean, warm daylight cartography with soft pastels, perfect for autumn travel
       const baseTile = L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
         {
-          attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom',
-          maxZoom: 16,
+          attribution: '&copy; <a href="https://carto.com/">CARTO</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          subdomains: 'abcd',
+          maxZoom: 19,
           minZoom: 3,
         }
       ).addTo(map);
@@ -223,6 +225,7 @@ export const AutumnMap: React.FC<AutumnMapProps> = ({
       }).addTo(map);
 
       marker.on('click', () => {
+        autumnAudio.playClickChime();
         onSelectDestination(dest);
         map.flyTo([dest.latitude, dest.longitude], Math.max(map.getZoom(), 8), {
           duration: 0.8,

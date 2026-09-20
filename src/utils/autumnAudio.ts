@@ -25,10 +25,30 @@ class AutumnAmbientAudio {
     return this.isPlaying;
   }
 
+  /**
+   * Ensures audio is running; resumes if suspended by browser autoplay policy
+   */
+  public ensureStarted(): boolean {
+    if (!this.isPlaying) {
+      this.start();
+      return this.isPlaying;
+    } else if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+      return true;
+    }
+    return true;
+  }
+
   public start() {
-    if (this.isPlaying) return;
+    if (this.isPlaying && this.ctx && this.ctx.state !== 'suspended') return;
 
     try {
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+        this.isPlaying = true;
+        return;
+      }
+
       const AudioCtx =
         window.AudioContext ||
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -37,9 +57,12 @@ class AutumnAmbientAudio {
       // Master output gain with gentle fade-in
       const master = this.ctx.createGain();
       master.gain.setValueAtTime(0.0001, this.ctx.currentTime);
-      master.gain.exponentialRampToValueAtTime(0.09, this.ctx.currentTime + 2.5);
+      master.gain.exponentialRampToValueAtTime(0.12, this.ctx.currentTime + 1.8);
       master.connect(this.ctx.destination);
       this.masterGain = master;
+
+      // Play soft harmonic welcome chimes upon access
+      this.playWelcomeChimes();
 
       // 1. Soft Warm Autumn Breeze (Pink/Brown noise passed through dual smooth resonant filters)
       const sampleRate = this.ctx.sampleRate;
@@ -142,12 +165,70 @@ class AutumnAmbientAudio {
         this.chimeTimer = window.setTimeout(playSoftChime, nextDelay);
       };
 
-      // Start the first chime after 2 seconds
-      this.chimeTimer = window.setTimeout(playSoftChime, 2200);
+      // Start the first ambient chime after 3.5 seconds (after welcome notes)
+      this.chimeTimer = window.setTimeout(playSoftChime, 3500);
 
       this.isPlaying = true;
     } catch {
       this.isPlaying = false;
+    }
+  }
+
+  /**
+   * Harmonious warm welcome chime chords when user accesses the app
+   */
+  private playWelcomeChimes() {
+    if (!this.ctx || !this.masterGain) return;
+    try {
+      const now = this.ctx.currentTime;
+      // Arpeggiated gentle pentatonic notes: G4 (392Hz), C5 (523.25Hz), E5 (659.25Hz), A5 (880Hz)
+      const notes = [392.0, 523.25, 659.25, 880.0];
+      notes.forEach((freq, idx) => {
+        const osc = this.ctx!.createOscillator();
+        const gain = this.ctx!.createGain();
+        const noteTime = now + 0.12 + idx * 0.24;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, noteTime);
+
+        gain.gain.setValueAtTime(0.0001, noteTime);
+        gain.gain.exponentialRampToValueAtTime(0.045, noteTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.00001, noteTime + 2.4);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain!);
+
+        osc.start(noteTime);
+        osc.stop(noteTime + 2.5);
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+  /**
+   * Delicate acoustic feedback chime when touching a destination marker or button
+   */
+  public playClickChime() {
+    if (!this.isPlaying || !this.ctx || !this.masterGain) return;
+    try {
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(783.99, now); // G5 note
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.03, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.00001, now + 0.7);
+      osc.connect(gain);
+      gain.connect(this.masterGain);
+      osc.start(now);
+      osc.stop(now + 0.75);
+    } catch {
+      // ignore
     }
   }
 

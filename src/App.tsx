@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { DESTINATIONS } from './data/destinations';
 import { Destination, CountryCode, FoliageStatus, LeafFilterType } from './types';
 import { getDestinationMeta, matchesLeafFilter } from './utils/autumnMeta';
@@ -26,12 +26,45 @@ export default function App() {
   const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
   const [detailDestination, setDetailDestination] = useState<Destination | null>(null);
 
-  // New interactive settings: Dark mode default (trầm xuống để làm nổi bật lá vàng/đỏ) & Illustrated Pins
-  const [mapTheme, setMapTheme] = useState<'dark' | 'light'>('dark');
+  // Bản đồ mặc định chế độ ban ngày (Nắng Thu sáng) & bật âm thanh khi truy cập
+  const [mapTheme, setMapTheme] = useState<'dark' | 'light'>('light');
   const [pinMode, setPinMode] = useState<'illustrated' | 'photo'>('illustrated');
-  const [soundPlaying, setSoundPlaying] = useState(false);
+  const [soundPlaying, setSoundPlaying] = useState(true);
   const [leavesEnabled, setLeavesEnabled] = useState(true);
   const [isSovereigntyOpen, setIsSovereigntyOpen] = useState(false);
+
+  // Tự động phát âm thanh du dương mùa thu khi người dùng truy cập
+  useEffect(() => {
+    // 1. Thử khởi động âm thanh ngay lập tức
+    try {
+      autumnAudio.start();
+      setSoundPlaying(true);
+    } catch {
+      // Một số trình duyệt chặn autoplay trước khi có tương tác
+    }
+
+    // 2. Đảm bảo âm thanh phát mượt mà ngay tại tương tác đầu tiên của người dùng
+    const handleFirstUserGesture = () => {
+      autumnAudio.ensureStarted();
+      setSoundPlaying(true);
+      window.removeEventListener('pointerdown', handleFirstUserGesture);
+      window.removeEventListener('touchstart', handleFirstUserGesture);
+      window.removeEventListener('scroll', handleFirstUserGesture);
+      window.removeEventListener('keydown', handleFirstUserGesture);
+    };
+
+    window.addEventListener('pointerdown', handleFirstUserGesture, { passive: true });
+    window.addEventListener('touchstart', handleFirstUserGesture, { passive: true });
+    window.addEventListener('scroll', handleFirstUserGesture, { passive: true });
+    window.addEventListener('keydown', handleFirstUserGesture, { passive: true });
+
+    return () => {
+      window.removeEventListener('pointerdown', handleFirstUserGesture);
+      window.removeEventListener('touchstart', handleFirstUserGesture);
+      window.removeEventListener('scroll', handleFirstUserGesture);
+      window.removeEventListener('keydown', handleFirstUserGesture);
+    };
+  }, []);
 
   // Toggle ambient wind & rustling leaves sound
   const handleToggleSound = () => {
@@ -162,6 +195,7 @@ export default function App() {
 
   // Handle marker/card select
   const handleSelectDestination = (dest: Destination) => {
+    autumnAudio.playClickChime();
     setSelectedDestination(dest);
     if (selectedCountry !== 'all' && dest.countryCode !== selectedCountry) {
       setSelectedCountry('all');
